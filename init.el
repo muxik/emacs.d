@@ -6,13 +6,68 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
 
-;; set font 
-(set-default-font "IBM Plex Mono Text-16")
+
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+			   ("melpa" . "http://elpa.emacs-china.org/melpa/"))))
+
+;; 注意 elpa.emacs-china.org 是 Emacs China 中文社区在国内搭建的一个 ELPA 镜像
+
+;; cl - Common Lisp Extension
+(require 'cl)
+
+;; Add Packages
+(defvar my/packages '(
+		      ;; --- Auto-completion ---
+		      company
+		      ;; --- Better Editor ---
+		      hungry-delete
+		      
+		      swiper
+		      counsel
+		      smartparens
+		      ;; --- Major Mode ---
+		      js2-mode
+		      ;; --- Minor Mode ---
+		      nodejs-repl
+		      exec-path-from-shell
+		      ;; --- Themes ---
+		      monokai-theme
+		      dracula-theme
+		      ;; solarized-theme
+		      ) "Default packages")
+
+(setq package-selected-packages my/packages)
+
+(defun my/packages-installed-p ()
+  (loop for pkg in my/packages
+	when (not (package-installed-p pkg)) do (return nil)
+	finally (return t)))
+
+(unless (my/packages-installed-p)
+  (message "%s" "Refreshing package database...")
+  (package-refresh-contents)
+  (dolist (pkg my/packages)
+    (when (not (package-installed-p pkg))
+      (package-install pkg))))
+
+;; Find Executable Path on OS X
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+
+;; --- --- --- start --- --- ---
+
+
+
+;; set font famliy and font size  
+(set-default-font "IBM Plex Mono Text-15")
 
 ;; set cursor type
-(setq cursor-type 'bar)
+(setq-default cursor-type 'bar)
 
 ;; turn off tool-bar
 (tool-bar-mode -1)
@@ -36,19 +91,95 @@
 ;; start global-company
 (global-company-mode t)
 
+;; disable file backup
+(setq make-backup-files nil)
 
+;; Recently opened files   
+(require 'recentf)
+
+;; turn on recentf 
+(recentf-mode 1)
+
+;; set max menu items
+(setq  recentf-max-menu-items 25)
+
+;; set global key 
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+
+;; delete slecttion
+(delete-selection-mode t)
+
+;; set emacs full screen
+(setq initial-frame-alist (quote ((fullscreen . maximizd))))
+
+;; el mode show paren highlight
+(add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
+
+;; load theme
+(load-theme 'dracula t)
+
+;; hungry delete
+(global-hungry-delete-mode t)
+
+;; Smex is a M-x enhancement for Emacs
+;; (require 'smex) 
+;; (smex-initialize)
+;; (global-set-key (kbd "M-x") 'smex)
+
+;; swiper
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+;; enable this if you want `swiper' to use it
+;; (setq search-default-mode #'char-fold-to-regexp)
+(global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key (kbd "<f6>") 'ivy-resume)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+(global-set-key (kbd "<f1> v") 'counsel-describe-varible)
+(global-set-key (kbd "<f1> l") 'counsel-find-library)
+(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+(global-set-key (kbd "C-c g") 'counsel-git)
+(global-set-key (kbd "C-c j") 'counsel-git-grep)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+
+;; smartparens
+(require 'smartparens-config)
+(add-hook 'js-mode-hook #'smartparens-mode)
+(smartparens-global-mode t)
+
+
+;; config js2-mode for javascript file
+(setq auto-mode-alist (append'(("\\.js\\'". js2-mode)) auto-mode-alist))
+
+;; Run Nodejs REPL in emacs
+(require 'nodejs-repl)
+
+
+;; --- --- --- end --- --- ---
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-idle-delay 0.05)
+ '(company-minimum-prefix-length 1)
+ '(custom-safe-themes
+   (quote
+    ("a41b81af6336bd822137d4341f7e16495a49b06c180d6a6417bf9fd1001b6d2b" "f9aede508e587fe21bcfc0a85e1ec7d27312d9587e686a6f5afdbb0d220eab50" default)))
  '(package-selected-packages (quote (company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
-
+ '(js2-external-variable ((t (:foreground "dim gray")))))
 
