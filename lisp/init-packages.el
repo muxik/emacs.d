@@ -69,5 +69,19 @@
 (require 'popwin)
 (popwin-mode t)
 
+;; hungry delete
+(global-hungry-delete-mode t)
+
+;; swiper
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+
+;; config js2-mode for javascript file
+(setq auto-mode-alist (append'(("\\.js\\'". js2-mode)) auto-mode-alist))
+
+;; smartparens
+(add-hook 'js-mode-hook #'smartparens-mode)
+(smartparens-global-mode t)
 
 (provide 'init-packages)

@@ -14,11 +14,11 @@
 ;; turn off scroll-bar
 (scroll-bar-mode -1)
 
-;; show linum-mode
-(global-linum-mode t)
-
 ;; Highlight active line
 (global-hl-line-mode)
+
+;; set emacs full screen
+(setq initial-frame-alist (quote ((fullscreen . maximizd))))
 
 ;; provide
 (provide 'init-ui)
