@@ -2,29 +2,14 @@
 
 ;; requires
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-
 (require 'init-packages)
+(require 'init-ui)
 
 ;; disable auto-save
 (setq auto-save-default nil)
 
 ;; auto revert
 (global-auto-revert-mode t)
-
-;; set font famliy and font size  
-(set-default-font "IBM Plex Mono Text-15")
-
-;; set cursor type
-(setq-default cursor-type 'bar)
-
-;; turn off tool-bar
-(tool-bar-mode -1)
-
-;; turn off scroll-bar
-(scroll-bar-mode -1)
-
-;; show linum-mode
-(global-linum-mode t)
 
 ;; inhibit splash screen
 (setq inhibit-splash-screen t)
@@ -35,8 +20,6 @@
   (find-file "~/.emacs.d/init.el"))
 
 (global-set-key (kbd "<f2>c") 'open-my-init-file)
-
-
 
 ;; disable file backup
 (setq make-backup-files nil)
@@ -53,7 +36,6 @@
 ;; set global key 
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-
 ;; delete slecttion
 (delete-selection-mode t)
 
@@ -62,8 +44,6 @@
 
 ;; el mode show paren highlight
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
-
-
 
 ;; hungry delete
 (global-hungry-delete-mode t)
@@ -97,7 +77,6 @@
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 ;; smartparens
-(require 'smartparens-config)
 (add-hook 'js-mode-hook #'smartparens-mode)
 (smartparens-global-mode t)
 

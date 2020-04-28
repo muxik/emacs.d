@@ -18,7 +18,7 @@
 (require 'cl)
 
 ;; Add Packages
-(defvar my/packages '(
+(defvar muxi_k/packages '(
 		      ;; --- Auto-completion ---
 		      company
 		      ;; --- Better Editor ---
@@ -38,17 +38,17 @@
 		      ;; solarized-theme
 		      ) "Default packages")
 
-(setq package-selected-packages my/packages)
+(setq package-selected-packages muxi_k/packages)
 
-(defun my/packages-installed-p ()
-  (loop for pkg in my/packages
+(defun muxi_k/packages-installed-p ()
+  (loop for pkg in muxi_k/packages
 	when (not (package-installed-p pkg)) do (return nil)
 	finally (return t)))
 
-(unless (my/packages-installed-p)
+(unless (muxi_k/packages-installed-p)
   (message "%s" "Refreshing package database...")
   (package-refresh-contents)
-  (dolist (pkg my/packages)
+  (dolist (pkg muxi_k/packages)
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
