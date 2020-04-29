@@ -1,3 +1,4 @@
 *.el~
 games
 auto-save-list
+eshell

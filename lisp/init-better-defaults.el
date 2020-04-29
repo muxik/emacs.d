@@ -54,6 +54,37 @@
 	(indent-buffer)
 	(message "Indent buffer.")))))
 
+;; hippie-expand
+(setq hippie-expand-try-function-list '(try-expand-debbrev
+					try-expand-debbrev-all-buffers
+					try-expand-debbrev-from-kill
+					try-complete-file-name-partially
+					try-complete-file-name
+					try-expand-all-abbrevs
+					try-expand-list
+					try-expand-line
+					try-complete-lisp-symbol-partially
+					try-complete-lisp-symbol))
+;; no yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; recursive delete and recursive copies
+(setq dired-recursive-deletes 'always)
+(setq dired-recursive-copies 'always)
+
+;; Let Emacs reuse the only buffer as a dedicated buffer for Dired Mode display.
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Active Dired Mode
+;; (require 'dired)
+;; (defined-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+
+;; 延迟加载
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+
+;; When there are two split screens in one window, the other split screen is automatically set as the destination of the copy address.
+(setq dired-dwin-target 1) 
 
 ;; provide
 (provide 'init-better-defaults)
