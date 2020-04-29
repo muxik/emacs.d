@@ -27,6 +27,9 @@
 		      counsel
 		      smartparens
 		      popwin
+		      
+		      neotree
+		      all-the-icons
 		      ;; --- Major Mode ---
 		      js2-mode
 		      ;; --- Minor Mode ---
@@ -83,5 +86,14 @@
 ;; smartparens
 (add-hook 'js-mode-hook #'smartparens-mode)
 (smartparens-global-mode t)
+
+;; neotree
+(add-to-list 'load-path "/some/path/neotree")
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+;; icons
+(require 'all-the-icons)
 
 (provide 'init-packages)
