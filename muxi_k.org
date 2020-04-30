@@ -1,0 +1,28 @@
+** init all packages
+
+#+BEGIN_SRC 
+(package-initialize)
+#+END_SRC 
+
+** configuration loadPath
+
+#+BEGIN_SRC
+;; open my init.el file 
+(defun open-my-init-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+    
+
+;; requires
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'init-packages)
+(require 'init-ui)
+(require 'init-org)
+(require 'init-keybindings)
+(require 'init-better-defaults)
+
+(setq custom-file (expand-file-name "lisp/custom.el" user-emacs-directory))
+
+(load-file custom-file)
+#+END_SRC
+
